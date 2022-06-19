@@ -45,7 +45,24 @@ def player(board):
         return 'x'
 
 
+def get_winner(board):
+    for i in board:
+        if i == 3 * ['x']:
+            print ('x is winner')
+            return 'x'
+        elif i == 3 * ['o']:
+            print('o is winner')
+            return 'o'
 
+    for i in range(DIMENSIONS):
+        for j in range(DIMENSIONS):
+            temp = 3 * board[j][i]
+            if temp == 3 * ['x']:
+                print ('x is winner')
+                return 'x'
+            elif temp == 3 * ['o']:
+                print('o is winner')
+                return 'o'
 a = make_move([[None, 'X', None],
          [None, 'O', None],
          ['O', 'X', None]], (0, 0), 'X')
