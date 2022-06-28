@@ -1,6 +1,11 @@
+import numpy as np
+
 DIMENSIONS = 3
+
+
 def new_board():
     return [[None, None, None], [None, None, None], [None, None, None]]
+
 
 def render(board):
     print('\t  |0  1  2')
@@ -15,21 +20,25 @@ def render(board):
 
         print('')
 
+
 def get_move():
     x_coord = int(input('X- coordinates : '))
     y_coord = int(input('Y- coordinates : '))
 
     return (x_coord, y_coord)
 
-def make_move(board, coordintes, player):
+
+def make_move(board, coordinates, player):
     new_board = board
-    new_board[coordintes[0]][coordintes[1]] = player
+    new_board[coordinates[0]][coordinates[1]] = player
     return new_board
+
 
 def is_valid_move(board, coordinates):
     if board[coordinates[0]][coordinates[1]] is None:
         return True
     return False
+
 
 def player(board):
     count_x = sum([i.count('x') for i in board])
@@ -46,31 +55,54 @@ def player(board):
 
 
 def get_winner(board):
-    for i in board:
-        if i == 3 * ['x']:
-            print ('x is winner')
+    for i in range(DIMENSIONS):
+        if board[i] == 3 * ['x']:          #Are any of the Rows are x
+            print('x is winner - row')
             return 'x'
-        elif i == 3 * ['o']:
-            print('o is winner')
+
+        elif board[i] == 3 * ['o']:        #Are any of the Rows are o
+            print('o is winner - row')
+            return 'o'
+        vertical_temp = []
+        for j in range(DIMENSIONS):
+            vertical_temp.append(board[j][i])       #Generating lists of the singel Columns
+
+        if vertical_temp == 3 * ['x']:          #Are any of the Rows are x
+            print('x is winner - column')
+            return 'x'
+
+        elif vertical_temp == 3 * ['o']:        #Are any of the Rows are o
+            print('o is winner - column')
             return 'o'
 
-    for i in range(DIMENSIONS):
-        for j in range(DIMENSIONS):
-            temp = 3 * board[j][i]
-            if temp == 3 * ['x']:
-                print ('x is winner')
-                return 'x'
-            elif temp == 3 * ['o']:
-                print('o is winner')
-                return 'o'
-a = make_move([[None, 'X', None],
-         [None, 'O', None],
-         ['O', 'X', None]], (0, 0), 'X')
+    main_diagonal_temp = np.diagonal(board)
+    reverse_diagonal_temp = np.fliplr(board).diagonal()
+
+    if all(main_diagonal_temp == (3 * ['x'])):  # Are any of the diagonals are x
+        print('x is winner - main diagonal')
+        return 'x'
+
+    elif all(reverse_diagonal_temp == (3 * ['x'])):    # Are any of the diagonals are x
+        print('x is winner - reverse diagonal')
+        return 'x'
+
+    elif all(main_diagonal_temp == 3 * ['o']):   # Are any of the diagonals are o
+        print('o is winner - main diagonal')
+        return 'o'
+
+    elif all(reverse_diagonal_temp == (3 * ['o'])):  # Are any of the diagonals are o
+        print('o is winner - reverse diagonal')
+        return 'o'
+
+
+#a = make_move([[None, 'X', None],[None, 'O', None],['O', 'X', None]], (0, 0), 'X')
 
 #print(render(a))
 
 #print(is_valid_move([[None, 'X', None],[None, 'O', None],['O', 'X', None]], (2, 0)))
 
-print(player([[None, 'x', None],
-         ['x', None, None],
-         ['o', 'x', 'o']]))
+#print(player([[None, 'x', None],['x', None, None],['o', 'x', 'o']]))
+
+get_winner([['x', 'o', 'o'],
+           [None, 'o', 'x'],
+           ['o', None, 'x']])
