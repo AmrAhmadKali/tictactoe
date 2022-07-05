@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 
 DIMENSIONS = 3
 
@@ -29,7 +30,7 @@ def get_move():
 
 
 def make_move(board, coordinates, player):
-    new_board = board
+    new_board = copy.deepcopy(board)
     new_board[coordinates[0]][coordinates[1]] = player
     return new_board
 
@@ -95,6 +96,45 @@ def get_winner(board):
         return 'o'
 
 
+def is_full(board):
+    for i in board:
+        for j in i:
+            if j is None:
+                return False
+    return True
+
+
+#Driver Code
+
+print('Wellcome in Tic Tac Toe \n ')   #TooDo
+
+current_board = new_board()
+render(current_board)
+
+while True:
+    current_player = player(current_board)
+
+    print(f'Player {current_player} turn')
+    coord = get_move()
+
+    if is_valid_move(current_board, coord):
+        current_board = make_move(current_board, coord, current_player)
+
+    else:
+        print('Invalid move')
+        continue
+
+    render(current_board)
+
+    winner = get_winner(current_board)
+
+    if winner == 'x' or winner == 'o':     # TO Do
+        break
+
+    if is_full(current_board):
+        print('It is a Tie')
+        break
+
 #a = make_move([[None, 'X', None],[None, 'O', None],['O', 'X', None]], (0, 0), 'X')
 
 #print(render(a))
@@ -103,6 +143,5 @@ def get_winner(board):
 
 #print(player([[None, 'x', None],['x', None, None],['o', 'x', 'o']]))
 
-get_winner([['x', 'o', 'o'],
-           [None, 'o', 'x'],
-           ['o', None, 'x']])
+#get_winner([['x', 'o', 'o'],[None, 'o', 'x'],['o', None, 'x']])
+
