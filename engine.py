@@ -58,42 +58,36 @@ def player(board):
 def get_winner(board):
     for i in range(DIMENSIONS):
         if board[i] == 3 * ['x']:          #Are any of the Rows are x
-            print('x is winner - row')
             return 'x'
 
         elif board[i] == 3 * ['o']:        #Are any of the Rows are o
-            print('o is winner - row')
             return 'o'
         vertical_temp = []
         for j in range(DIMENSIONS):
             vertical_temp.append(board[j][i])       #Generating lists of the singel Columns
 
         if vertical_temp == 3 * ['x']:          #Are any of the Rows are x
-            print('x is winner - column')
             return 'x'
 
         elif vertical_temp == 3 * ['o']:        #Are any of the Rows are o
-            print('o is winner - column')
             return 'o'
 
     main_diagonal_temp = np.diagonal(board)
     reverse_diagonal_temp = np.fliplr(board).diagonal()
 
     if all(main_diagonal_temp == (3 * ['x'])):  # Are any of the diagonals are x
-        print('x is winner - main diagonal')
         return 'x'
 
     elif all(reverse_diagonal_temp == (3 * ['x'])):    # Are any of the diagonals are x
-        print('x is winner - reverse diagonal')
         return 'x'
 
     elif all(main_diagonal_temp == 3 * ['o']):   # Are any of the diagonals are o
-        print('o is winner - main diagonal')
         return 'o'
 
     elif all(reverse_diagonal_temp == (3 * ['o'])):  # Are any of the diagonals are o
-        print('o is winner - reverse diagonal')
         return 'o'
+
+    return False
 
 
 def is_full(board):
@@ -106,34 +100,35 @@ def is_full(board):
 
 #Driver Code
 
-print('Wellcome in Tic Tac Toe \n ')   #TooDo
+def play_mode1():
 
-current_board = new_board()
-render(current_board)
+    print('Wellcome in Tic Tac Toe \n ')   #TooDo
 
-while True:
-    current_player = player(current_board)
-
-    print(f'Player {current_player} turn')
-    coord = get_move()
-
-    if is_valid_move(current_board, coord):
-        current_board = make_move(current_board, coord, current_player)
-
-    else:
-        print('Invalid move')
-        continue
-
+    current_board = new_board()
     render(current_board)
 
-    winner = get_winner(current_board)
+    while True:
+        current_player = player(current_board)
 
-    if winner == 'x' or winner == 'o':     # TO Do
-        break
+        print(f'Player {current_player} turn')
+        coord = get_move()
 
-    if is_full(current_board):
-        print('It is a Tie')
-        break
+        if is_valid_move(current_board, coord):
+            current_board = make_move(current_board, coord, current_player)
+
+        else:
+            print('Invalid move')
+            continue
+
+        render(current_board)
+
+        winner = get_winner(current_board)
+
+        if winner == 'x' or winner == 'o':     # TO Do
+            break
+
+        if is_full(current_board):
+            break
 
 #a = make_move([[None, 'X', None],[None, 'O', None],['O', 'X', None]], (0, 0), 'X')
 
